@@ -1,0 +1,38 @@
+name: Update MemoEcho
+
+on:
+  schedule:
+    - cron: "23 3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-memoecho
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Verify release and update cask
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 scripts/update_cask.py
+      - name: Check Ruby syntax
+        run: ruby -c Casks/memoecho.rb
+      - name: Commit updated release
+        run: |
+          if git diff --quiet -- Casks/memoecho.rb; then
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Casks/memoecho.rb
+          git commit -m "chore(cask): update MemoEcho release"
+          git push
