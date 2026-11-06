@@ -1,6 +1,6 @@
 cask "memoecho" do
-  version "1.0.0-beta.25"
-  sha256 "45c4c6b4ee17a758beaf42fa23701534e76521caaa4e40a3ff5d33cdf11d8029"
+  version "1.0.0-beta.26"
+  sha256 "332fa5e131a374661683a3d904f0eb9432fbead34f3687d11ce2e67048360b8f"
 
   url "https://github.com/isecret/MemoEcho/releases/download/v#{version}/MemoEcho-v#{version}.dmg"
   name "MemoEcho"
